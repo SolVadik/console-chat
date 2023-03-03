@@ -17,9 +17,9 @@ struct UserNameExp : public std::exception
 class Chat
 {
 	bool is_chat_work_ = false;
-	std::vector<User> users_;
-	std::vector<Message> messages_;
-	std::shared_ptr<User> current_user_;
+	std::vector<User<std::string>> users_;
+	std::vector<Message<std::string>> messages_;
+	std::shared_ptr<User<std::string>> current_user_;
 
 	void login();
 	void sign_up();
@@ -27,15 +27,15 @@ class Chat
 	void show_all_user_name() const;
 	void add_message();
 
-	std::vector<User>& get_all_users() { return users_; }
-	std::vector<Message>& get_all_messages() { return messages_; }
-	std::shared_ptr<User> get_user_login(const std::string& login) const;
-	std::shared_ptr<User> get_user_name(const std::string& name) const;
+	std::vector<User<std::string>>& get_all_users() { return users_; }
+	std::vector<Message<std::string>>& get_all_messages() { return messages_; }
+	std::shared_ptr<User<std::string>> get_user_login(const std::string& login) const;
+	std::shared_ptr<User<std::string>> get_user_name(const std::string& name) const;
 
 public:
 	void start();
 	bool is_chat_work() const { return is_chat_work_; }
-	std::shared_ptr<User> get_current_user() const { return current_user_; }
+	std::shared_ptr<User<std::string>> get_current_user() const { return current_user_; }
 	void show_login_menu();
 	void show_user_menu();
 };

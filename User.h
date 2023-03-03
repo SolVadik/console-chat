@@ -1,23 +1,23 @@
 #pragma once
 #include <string>
 
-
+template <class T>
 class User
 {
-	const std::string login_;
-	std::string name_;
-	std::string password_;
+	const T login_;
+	T name_;
+	T password_;
 public:
-	User(const std::string& login, const std::string& name, const std::string& password) :
+	User(const T& login, const T& name, const T& password) :
 		login_(login), name_(name), password_(password) {};
 	
 	//~User() = default;
 
-	const std::string& get_login() const { return login_; };
-	const std::string& get_name() const { return name_; };
-	const std::string& get_password() const { return password_; };
+	const T& get_login() const { return login_; };
+	const T& get_name() const { return name_; };
+	const T& get_password() const { return password_; };
 
-	void set_name(const std::string& name) { name_ = name; };
-	void set_password(const std::string& password) { password_ = password; };
+	void set_name(const T& name) { name_ = name; };
+	void set_password(const T& password) { password_ = password; };
 };
 
