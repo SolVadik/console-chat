@@ -98,6 +98,10 @@ void Chat::show_chat() const
 void Chat::show_all_user_name() const
 {
 	std::cout << "8" << std::endl;
+	//for (int i = 0; i < users_.size(); i++)
+	//{
+	//	users_[i].show_name();
+	//}
 }
 
 void Chat::add_message()
