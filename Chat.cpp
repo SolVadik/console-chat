@@ -122,12 +122,19 @@ void Chat::show_user_menu()
 	}
 	case '4':
 	{
-
+		try
+		{
+			change_name();
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 		break;
 	}
 	case '5':
 	{
-
+		change_password();
 		break;
 	}
 	case 'q':
@@ -141,6 +148,28 @@ void Chat::show_user_menu()
 		break;
 	}
 	}
+}
+
+void Chat::change_name()
+{
+	std::string name{ 0 };
+	std::cout << "Enter new name: " << std::endl;
+	std::cin >> name;
+	if (get_user_name(name))
+		throw UserNameExp();
+	//std::cout << current_user_->get_name() << std::endl;
+	current_user_->set_name(name);
+	//std::cout << current_user_->get_name() << std::endl;
+}
+
+void Chat::change_password()
+{
+	std::string password{ 0 };
+	std::cout << "Enter new password: " << std::endl;
+	std::cin >> password;
+	//std::cout << current_user_->get_password() << std::endl;
+	current_user_->set_password(password);
+	//std::cout << current_user_->get_password() << std::endl;
 }
 
 void Chat::show_chat() const

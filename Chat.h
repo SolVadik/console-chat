@@ -38,4 +38,6 @@ public:
 	std::shared_ptr<User<std::string>> get_current_user() const { return current_user_; }
 	void show_login_menu();
 	void show_user_menu();
+	void change_name();
+	void change_password();
 };
