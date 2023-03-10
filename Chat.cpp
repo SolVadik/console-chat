@@ -30,7 +30,7 @@ void Chat::show_login_menu()
 		{
 			sign_up();
 		}
-		catch(const std::exception &e)
+		catch (const std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
 		}
@@ -175,6 +175,10 @@ void Chat::change_password()
 void Chat::show_chat() const
 {
 	std::cout << "7" << std::endl;
+	//for (int i = 0; i < messages_.size(); i++)
+	//{
+	//	messages_[i].show_message();
+	//}
 }
 
 void Chat::show_all_user_name() const
@@ -194,6 +198,13 @@ void Chat::show_all_user_name() const
 void Chat::add_message()
 {
 	std::cout << "9" << std::endl;
+	//std::string From = get_user_name();
+	//std::string To;
+	//std::cin >> To;
+	//std::string Text;
+	//std::cin >> Text;
+	//Message<std::string> message(From, To, Text);
+	//messages_.push_back(message);
 }
 
 std::shared_ptr<User<std::string>> Chat::get_user_login(const std::string& login) const
