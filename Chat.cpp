@@ -16,7 +16,7 @@ void Chat::start()
 void Chat::show_login_menu()
 {
 	char operation;
-	std::cout << "Number for choise: \n 1 - Login \n 2 - SignUp \n 3 - Out " << std::endl;
+	std::cout << "Number for choise: \n 1 - Login \n 2 - SignUp \n q - Out " << std::endl;
 	std::cin >> operation;
 	switch (operation) {
 	case '1': {
@@ -26,16 +26,23 @@ void Chat::show_login_menu()
 	}
 	case '2': {
 		std::cout << "2" << std::endl;
-		sign_up();
+		try
+		{
+			sign_up();
+		}
+		catch(const std::exception &e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 		break;
 	}
-	case '3': {
+	case 'q': {
 		std::cout << "3" << std::endl;
 		is_chat_work_ = false;
 		break;
 	}
 	default: {
-		std::cout << "enter 1 - 2 or 3" << std::endl;
+		std::cout << "enter 1 - 2 or q" << std::endl;
 		break;
 	}
 	}
@@ -81,13 +88,59 @@ void Chat::sign_up()
 	std::cin >> password;
 	std::cout << std::endl;
 
+	if (get_user_login(login))
+		throw UserLoginExp();
+	if (get_user_name(name))
+		throw UserNameExp();
+
 	User<std::string> user(login, name, password);
 	users_.push_back(user);
 }
 
 void Chat::show_user_menu()
 {
-	std::cout << "6" << std::endl;
+	char operation{ 0 };
+	std::cout << "Enter: \n 1 - Read message \n 2 - Add message \n 3 - Viev users \n 4 - Change name \n 5 - Change password \n q - Logout"
+		<< std::endl;
+	std::cin >> operation;
+	switch (operation)
+	{
+	case '1':
+	{
+		show_chat();
+		break;
+	}
+	case '2':
+	{
+		add_message();
+		break;
+	}
+	case '3':
+	{
+		show_all_user_name();
+		break;
+	}
+	case '4':
+	{
+
+		break;
+	}
+	case '5':
+	{
+
+		break;
+	}
+	case 'q':
+	{
+		current_user_ = nullptr;
+		break;
+	}
+	default:
+	{
+		std::cout << "enter 1 - 5 or q" << std::endl;
+		break;
+	}
+	}
 }
 
 void Chat::show_chat() const
@@ -102,6 +155,11 @@ void Chat::show_all_user_name() const
 	//{
 	//	users_[i].show_name();
 	//}
+
+	for (auto& user : users_)
+	{
+		std::cout << user.get_name() << std::endl;
+	}
 }
 
 void Chat::add_message()
