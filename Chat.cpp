@@ -20,12 +20,10 @@ void Chat::show_login_menu()
 	std::cin >> operation;
 	switch (operation) {
 	case '1': {
-		std::cout << "1" << std::endl;
 		login();
 		break;
 	}
 	case '2': {
-		std::cout << "2" << std::endl;
 		try
 		{
 			sign_up();
@@ -37,7 +35,6 @@ void Chat::show_login_menu()
 		break;
 	}
 	case 'q': {
-		std::cout << "3" << std::endl;
 		is_chat_work_ = false;
 		break;
 	}
@@ -81,17 +78,18 @@ void Chat::sign_up()
 	std::cout << "Enter login: " << std::endl;
 	std::cin >> login;
 
+	if (get_user_login(login))
+		throw UserLoginExp();
+
 	std::cout << "Enter name: " << std::endl;
 	std::cin >> name;
+
+	if (get_user_name(name))
+		throw UserNameExp();
 
 	std::cout << "Enter password: " << std::endl;
 	std::cin >> password;
 	std::cout << std::endl;
-
-	if (get_user_login(login))
-		throw UserLoginExp();
-	if (get_user_name(name))
-		throw UserNameExp();
 
 	User<std::string> user(login, name, password);
 	users_.push_back(user);
@@ -103,25 +101,20 @@ void Chat::show_user_menu()
 	std::cout << "Enter: \n 1 - Read message \n 2 - Add message \n 3 - Viev users \n 4 - Change name \n 5 - Change password \n q - Logout"
 		<< std::endl;
 	std::cin >> operation;
-	switch (operation)
-	{
-	case '1':
-	{
+	switch (operation) {
+	case '1': {
 		show_chat();
 		break;
 	}
-	case '2':
-	{
+	case '2': {
 		add_message();
 		break;
 	}
-	case '3':
-	{
+	case '3': {
 		show_all_user_name();
 		break;
 	}
-	case '4':
-	{
+	case '4': {
 		try
 		{
 			change_name();
@@ -132,18 +125,15 @@ void Chat::show_user_menu()
 		}
 		break;
 	}
-	case '5':
-	{
+	case '5': {
 		change_password();
 		break;
 	}
-	case 'q':
-	{
+	case 'q': {
 		current_user_ = nullptr;
 		break;
 	}
-	default:
-	{
+	default: {
 		std::cout << "enter 1 - 5 or q" << std::endl;
 		break;
 	}
@@ -174,20 +164,18 @@ void Chat::change_password()
 
 void Chat::show_chat() const
 {
-	std::cout << "7" << std::endl;
-	//for (int i = 0; i < messages_.size(); i++)
-	//{
-	//	messages_[i].show_message();
-	//}
+	/*for (int i = 0; i < messages_.size(); i++)
+	{
+		messages_[i].show_message();
+	}*/
 }
 
 void Chat::show_all_user_name() const
 {
-	std::cout << "8" << std::endl;
-	//for (int i = 0; i < users_.size(); i++)
-	//{
-	//	users_[i].show_name();
-	//}
+	/*for (int i = 0; i < users_.size(); i++)
+	{
+		users_[i].show_name();
+	}*/
 
 	for (auto& user : users_)
 	{
@@ -197,14 +185,13 @@ void Chat::show_all_user_name() const
 
 void Chat::add_message()
 {
-	std::cout << "9" << std::endl;
-	//std::string From = get_user_name();
-	//std::string To;
-	//std::cin >> To;
-	//std::string Text;
-	//std::cin >> Text;
-	//Message<std::string> message(From, To, Text);
-	//messages_.push_back(message);
+	/*std::string From = get_user_name();
+	std::string To;
+	std::cin >> To;
+	std::string Text;
+	std::cin >> Text;
+	Message<std::string> message(From, To, Text);
+	messages_.push_back(message);*/
 }
 
 std::shared_ptr<User<std::string>> Chat::get_user_login(const std::string& login) const
@@ -228,3 +215,4 @@ std::shared_ptr<User<std::string>> Chat::get_user_name(const std::string& name) 
 	}
 	return nullptr;
 }
+
