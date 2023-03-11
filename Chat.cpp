@@ -147,9 +147,13 @@ void Chat::change_name()
 	std::cin >> name;
 	if (get_user_name(name))
 		throw UserNameExp();
-	//std::cout << current_user_->get_name() << std::endl;
-	current_user_->set_name(name);
-	//std::cout << current_user_->get_name() << std::endl;
+	for (auto& user : users_) {
+		if (current_user_->get_login() == user.get_login()) {
+			user.set_name(name);
+			return;
+		}
+	}
+	
 }
 
 void Chat::change_password()
@@ -157,9 +161,12 @@ void Chat::change_password()
 	std::string password{ 0 };
 	std::cout << "Enter new password: " << std::endl;
 	std::cin >> password;
-	//std::cout << current_user_->get_password() << std::endl;
-	current_user_->set_password(password);
-	//std::cout << current_user_->get_password() << std::endl;
+	for (auto& user : users_) {
+		if (current_user_->get_login() == user.get_login()) {
+			user.set_password(password);
+			return;
+		}
+	}
 }
 
 void Chat::show_chat() const
