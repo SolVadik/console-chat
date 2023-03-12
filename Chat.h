@@ -17,8 +17,8 @@ struct UserNameExp : public std::exception
 class Chat
 {
 	bool is_chat_work_ = false;
-	std::vector<User<std::string>> users_;
-	std::vector<Message<std::string>> messages_;
+	std::vector<User<std::string>> users_; // saving all users in chat
+	std::vector<Message<std::string>> messages_; // saving all messages in chat
 	std::shared_ptr<User<std::string>> current_user_;
 
 	void login();

@@ -18,5 +18,5 @@ public:
 	const T& get_to() const { return to_; };
 	const T& get_text() const { return text_; };
 
-	//void show_message() {	std::cout << "From: " << from_ << endl << "To: " << to_ << endl << text_ << endl; };
+	//void show_message() {	std::cout << "From: " << from_ << std::endl << "To: " << to_ << std::endl << text_ << std::endl; };
 };

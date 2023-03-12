@@ -4,7 +4,7 @@
 template <class T>
 class User
 {
-	const T login_;
+	const T login_; // cannot be change
 	T name_;
 	T password_;
 public:
@@ -20,6 +20,6 @@ public:
 	void set_name(const T& name) { name_ = name; };
 	void set_password(const T& password) { password_ = password; };
 
-	//void show_name() { std::cout << name_ << endl; };
+	//void show_name() { std::cout << name_ << std::endl; };
 };
 

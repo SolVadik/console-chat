@@ -60,7 +60,7 @@ void Chat::login()
 
 		current_user_ = get_user_login(login);
 
-		if (current_user_ == nullptr || (password != current_user_->get_password())) {
+		if (current_user_ == nullptr || (password != current_user_->get_password())) { // checking are login and password correct
 			current_user_ == nullptr;
 			std::cout << "Login or password failed" << std::endl;
 			std::cout << "Enter q for exit or any key repeat: " << std::endl;
@@ -79,13 +79,13 @@ void Chat::sign_up()
 	std::cin >> login;
 
 	if (get_user_login(login))
-		throw UserLoginExp();
+		throw UserLoginExp(); // checking is new login unique
 
 	std::cout << "Enter name: " << std::endl;
 	std::cin >> name;
 
 	if (get_user_name(name))
-		throw UserNameExp();
+		throw UserNameExp(); // checking is new name unique
 
 	std::cout << "Enter password: " << std::endl;
 	std::cin >> password;
@@ -95,10 +95,10 @@ void Chat::sign_up()
 	users_.push_back(user);
 }
 
-void Chat::show_user_menu()
+void Chat::show_user_menu() //showing what user can do in chat
 {
 	char operation{ 0 };
-	std::cout << "Enter: \n 1 - Read message \n 2 - Add message \n 3 - Viev users \n 4 - Change name \n 5 - Change password \n q - Logout"
+	std::cout << "Enter: \n 1 - Read message \n 2 - Add message \n 3 - View users \n 4 - Change name \n 5 - Change password \n q - Logout"
 		<< std::endl;
 	std::cin >> operation;
 	switch (operation) {
@@ -169,7 +169,7 @@ void Chat::change_password()
 	}
 }
 
-void Chat::show_chat() const
+void Chat::show_chat() const // showing all messages
 {
 	/*for (int i = 0; i < messages_.size(); i++)
 	{
@@ -177,13 +177,8 @@ void Chat::show_chat() const
 	}*/
 }
 
-void Chat::show_all_user_name() const
+void Chat::show_all_user_name() const // showing all users in chat
 {
-	/*for (int i = 0; i < users_.size(); i++)
-	{
-		users_[i].show_name();
-	}*/
-
 	for (auto& user : users_)
 	{
 		std::cout << user.get_name() << std::endl;
@@ -201,7 +196,7 @@ void Chat::add_message()
 	messages_.push_back(message);*/
 }
 
-std::shared_ptr<User<std::string>> Chat::get_user_login(const std::string& login) const
+std::shared_ptr<User<std::string>> Chat::get_user_login(const std::string& login) const // searching user login among all users in chat
 {
 	for (auto& user : users_)
 	{
@@ -212,7 +207,7 @@ std::shared_ptr<User<std::string>> Chat::get_user_login(const std::string& login
 	return nullptr;
 }
 
-std::shared_ptr<User<std::string>> Chat::get_user_name(const std::string& name) const
+std::shared_ptr<User<std::string>> Chat::get_user_name(const std::string& name) const // searching user name among all users in chat
 {
 	for (auto& user : users_)
 	{
