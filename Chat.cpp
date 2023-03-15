@@ -49,26 +49,27 @@ void Chat::login()
 {
 	std::string login{ 0 }, password{ 0 };
 	char operation{ 0 };
-
 	do {
 		std::cout << "Enter login: " << std::endl;
 		std::cin >> login;
+		std::cout << std::endl;
+
+		current_user_ = get_user_login(login);
+		if (current_user_ == nullptr) {
+			std::cout << "login error" << std::endl;
+			break;
+		}
 
 		std::cout << "Enter password: " << std::endl;
 		std::cin >> password;
 		std::cout << std::endl;
 
-		current_user_ = get_user_login(login);
-
-		if (current_user_ == nullptr || (password != current_user_->get_password())) { // checking are login and password correct
-			current_user_ == nullptr;
-			std::cout << "Login or password failed" << std::endl;
-			std::cout << "Enter q for exit or any key repeat: " << std::endl;
-			std::cin >> operation;
-			if (operation == 'q')
-				break;
+		if (current_user_->get_password() != password) {
+			current_user_ = nullptr;
+			std::cout << "password error" << std::endl;
+			break;
 		}
-	} while (!current_user_);
+	}while (!current_user_);
 }
 
 void Chat::sign_up()
@@ -183,6 +184,7 @@ void Chat::change_password()
 
 void Chat::show_chat() const // showing all messages
 {
+	system("cls");
 	for (auto& message : messages_)
 		if (current_user_->get_name() == message.get_to() || message.get_to() == "All")
 			std::cout << message.get_from() << ":" << message.get_text() << std::endl;
