@@ -1,4 +1,3 @@
-//console chat
 #include "Chat.h"
 
 int main()

@@ -19,7 +19,5 @@ public:
 
 	void set_name(const T& name) { name_ = name; };
 	void set_password(const T& password) { password_ = password; };
-
-	//void show_name() { std::cout << name_ << std::endl; };
 };
 

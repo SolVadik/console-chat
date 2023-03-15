@@ -84,7 +84,7 @@ void Chat::sign_up()
 	std::cout << "Enter name: " << std::endl;
 	std::cin >> name;
 
-	if (get_user_name(name))
+	if (get_user_name(name) || name == "All")
 		throw UserNameExp(); // checking is new name unique
 
 	std::cout << "Enter password: " << std::endl;
@@ -145,11 +145,17 @@ void Chat::change_name()
 	std::string name{ 0 };
 	std::cout << "Enter new name: " << std::endl;
 	std::cin >> name;
-	if (get_user_name(name))
+	if (get_user_name(name) || name == "All")
 		throw UserNameExp();
 	for (auto& user : users_) {
 		if (current_user_->get_login() == user.get_login()) {
 			user.set_name(name);
+			// current variant
+			current_user_->set_name(name);
+			// alternative variant. force user relog
+			// current_user_ = nullptr;
+			// alternative variant. if use need add Rule of five.
+			//current_user_ = move(get_user_login(current_user_->get_login()));
 			return;
 		}
 	}
@@ -164,6 +170,12 @@ void Chat::change_password()
 	for (auto& user : users_) {
 		if (current_user_->get_login() == user.get_login()) {
 			user.set_password(password);
+			// current variant
+			current_user_->set_password(password);
+			// alternative variant. force user relog
+			// current_user_ = nullptr;
+			// alternative variant. if use need add Rule of five.
+			//current_user_ = move(get_user_login(current_user_->get_login()));
 			return;
 		}
 	}
@@ -171,10 +183,9 @@ void Chat::change_password()
 
 void Chat::show_chat() const // showing all messages
 {
-	/*for (int i = 0; i < messages_.size(); i++)
-	{
-		messages_[i].show_message();
-	}*/
+	for (auto& message : messages_)
+		if (current_user_->get_name() == message.get_to() || message.get_to() == "All")
+			std::cout << message.get_from() << ":" << message.get_text() << std::endl;
 }
 
 void Chat::show_all_user_name() const // showing all users in chat
@@ -187,13 +198,15 @@ void Chat::show_all_user_name() const // showing all users in chat
 
 void Chat::add_message()
 {
-	/*std::string From = get_user_name();
-	std::string To;
-	std::cin >> To;
-	std::string Text;
-	std::cin >> Text;
-	Message<std::string> message(From, To, Text);
-	messages_.push_back(message);*/
+	std::string from{ 0 }, to{ 0 }, text{ 0 };
+	from = current_user_->get_name();
+	std::cout << "Enter All to send to everyone, or enter a name" << std::endl;
+	std::cin >> to;
+	std::cout << "Enter your message" << std::endl;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // ignore garbage remaining in the buffer
+	std::getline(std::cin,text);
+	Message<std::string> message(from, to, text);
+	messages_.push_back(message);
 }
 
 std::shared_ptr<User<std::string>> Chat::get_user_login(const std::string& login) const // searching user login among all users in chat
