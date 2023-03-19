@@ -5,12 +5,12 @@
 void Chat::start()
 {
 	is_chat_work_ = true;
-	User<std::string> user1("1", "1", "1");
+	/*User<std::string> user1("1", "1", "1");
 	User<std::string> user2("2", "2", "2");
 	User<std::string> user3("3", "3", "3");
 	users_.push_back(user1);
 	users_.push_back(user2);
-	users_.push_back(user3);
+	users_.push_back(user3);*/
 }
 
 void Chat::show_login_menu()
@@ -48,27 +48,28 @@ void Chat::show_login_menu()
 void Chat::login()
 {
 	std::string login{ 0 }, password{ 0 };
-	char operation{ 0 };
 	do {
-		std::cout << "Enter login: " << std::endl;
-		std::cin >> login;
-		std::cout << std::endl;
+		do {
+			std::cout << "Enter login: " << std::endl;
+			std::cin >> login;
+			std::cout << std::endl;
 
-		current_user_ = get_user_login(login);
-		if (current_user_ == nullptr) {
-			std::cout << "login error" << std::endl;
-			break;
-		}
+			current_user_ = get_user_login(login);
+			if (current_user_ == nullptr) {
+				std::cout << "Login error" << std::endl;
+				break;
+			}
 
-		std::cout << "Enter password: " << std::endl;
-		std::cin >> password;
-		std::cout << std::endl;
+			std::cout << "Enter password: " << std::endl;
+			std::cin >> password;
+			std::cout << std::endl;
 
-		if (current_user_->get_password() != password) {
-			current_user_ = nullptr;
-			std::cout << "password error" << std::endl;
-			break;
-		}
+			if (current_user_->get_password() != password) {
+				current_user_ = nullptr;
+				std::cout << "Password error" << std::endl;
+				break;
+			}
+		} while (!current_user_);
 	}while (!current_user_);
 }
 
@@ -153,8 +154,10 @@ void Chat::change_name()
 			user.set_name(name);
 			// current variant
 			current_user_->set_name(name);
+
 			// alternative variant. force user relog
 			// current_user_ = nullptr;
+			
 			// alternative variant. if use need add Rule of five.
 			//current_user_ = move(get_user_login(current_user_->get_login()));
 			return;
@@ -173,8 +176,10 @@ void Chat::change_password()
 			user.set_password(password);
 			// current variant
 			current_user_->set_password(password);
+
 			// alternative variant. force user relog
 			// current_user_ = nullptr;
+			
 			// alternative variant. if use need add Rule of five.
 			//current_user_ = move(get_user_login(current_user_->get_login()));
 			return;
@@ -187,7 +192,7 @@ void Chat::show_chat() const // showing all messages
 	system("cls");
 	for (auto& message : messages_)
 		if (current_user_->get_name() == message.get_to() || message.get_to() == "All")
-			std::cout << message.get_from() << ":" << message.get_text() << std::endl;
+			std::cout << message.get_from() << ": " << message.get_text() << std::endl;
 }
 
 void Chat::show_all_user_name() const // showing all users in chat
@@ -201,9 +206,17 @@ void Chat::show_all_user_name() const // showing all users in chat
 void Chat::add_message()
 {
 	std::string from{ 0 }, to{ 0 }, text{ 0 };
+	bool flag{ true };
 	from = current_user_->get_name();
-	std::cout << "Enter All to send to everyone, or enter a name" << std::endl;
-	std::cin >> to;
+	do {
+		flag = false;
+		std::cout << "Enter All to send to everyone, or enter a name" << std::endl;
+		std::cin >> to;
+		if (get_user_name(to) == nullptr && to != "All") {
+			flag = true;
+			std::cout << "this name not found" << std::endl;
+		}
+	} while(flag);
 	std::cout << "Enter your message" << std::endl;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // ignore garbage remaining in the buffer
 	std::getline(std::cin,text);
