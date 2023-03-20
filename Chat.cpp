@@ -196,7 +196,7 @@ void Chat::show_chat() const // showing all messages
 	for (auto& message : messages_) {
 		if (message.get_to() == "All")
 			std::cout << message.get_from() << ": " << message.get_text() << std::endl;
-		if (current_user_->get_name() == message.get_to())
+		else
 			std::cout << message.get_from() << " to " << message.get_to() << ": " << message.get_text() << std::endl;
 	}
 }
