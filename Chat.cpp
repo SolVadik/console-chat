@@ -11,6 +11,7 @@ void Chat::start()
 	users_.push_back(user1);
 	users_.push_back(user2);
 	users_.push_back(user3);*/
+	//we can use this comments to imitate users in chat
 }
 
 void Chat::show_login_menu()
@@ -53,7 +54,9 @@ void Chat::login()
 			std::cout << "Enter login: " << std::endl;
 			std::cin >> login;
 			std::cout << std::endl;
-
+			if (login == "q") {
+				break;
+			}
 			current_user_ = get_user_login(login);
 			if (current_user_ == nullptr) {
 				std::cout << "Login error" << std::endl;
@@ -70,7 +73,10 @@ void Chat::login()
 				break;
 			}
 		} while (!current_user_);
-	}while (!current_user_);
+		if (login == "q") {
+			break;
+		}
+	} while (!current_user_);
 }
 
 void Chat::sign_up()
@@ -82,6 +88,9 @@ void Chat::sign_up()
 
 	if (get_user_login(login))
 		throw UserLoginExp(); // checking is new login unique
+
+	if (login == "q")
+		throw UserLoginExp(); // q is resrved for right quit from Login
 
 	std::cout << "Enter name: " << std::endl;
 	std::cin >> name;
@@ -157,13 +166,13 @@ void Chat::change_name()
 
 			// alternative variant. force user relog
 			// current_user_ = nullptr;
-			
+
 			// alternative variant. if use need add Rule of five.
 			//current_user_ = move(get_user_login(current_user_->get_login()));
 			return;
 		}
 	}
-	
+
 }
 
 void Chat::change_password()
@@ -179,7 +188,7 @@ void Chat::change_password()
 
 			// alternative variant. force user relog
 			// current_user_ = nullptr;
-			
+
 			// alternative variant. if use need add Rule of five.
 			//current_user_ = move(get_user_login(current_user_->get_login()));
 			return;
@@ -193,6 +202,8 @@ void Chat::show_chat() const // showing all messages
 	for (auto& message : messages_)
 		if (current_user_->get_name() == message.get_to() || message.get_to() == "All")
 			std::cout << message.get_from() << ": " << message.get_text() << std::endl;
+		else
+			std::cout << message.get_from() << " to " << message.get_to() << ": " << message.get_text() << std::endl;
 }
 
 void Chat::show_all_user_name() const // showing all users in chat
@@ -216,10 +227,10 @@ void Chat::add_message()
 			flag = true;
 			std::cout << "this name not found" << std::endl;
 		}
-	} while(flag);
+	} while (flag);
 	std::cout << "Enter your message" << std::endl;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // ignore garbage remaining in the buffer
-	std::getline(std::cin,text);
+	std::getline(std::cin, text);
 	Message<std::string> message(from, to, text);
 	messages_.push_back(message);
 }
@@ -245,4 +256,3 @@ std::shared_ptr<User<std::string>> Chat::get_user_name(const std::string& name) 
 	}
 	return nullptr;
 }
-
