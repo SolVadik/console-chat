@@ -193,11 +193,12 @@ void Chat::change_password()
 void Chat::show_chat() const // showing all messages
 {
 	system("cls");
-	for (auto& message : messages_)
-		if (current_user_->get_name() == message.get_to() || message.get_to() == "All")
+	for (auto& message : messages_) {
+		if (message.get_to() == "All")
 			std::cout << message.get_from() << ": " << message.get_text() << std::endl;
-		else
+		if (current_user_->get_name() == message.get_to())
 			std::cout << message.get_from() << " to " << message.get_to() << ": " << message.get_text() << std::endl;
+	}
 }
 
 void Chat::show_all_user_name() const // showing all users in chat
