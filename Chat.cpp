@@ -194,11 +194,15 @@ void Chat::show_chat() const // showing all messages
 {
 	system("cls");
 	for (auto& message : messages_) {
-		if (message.get_to() == "All")
+		if (message.get_to() == "All") //showing messages to all
 			std::cout << message.get_from() << ": " << message.get_text() << std::endl;
-		else
+		if (current_user_->get_name() == message.get_to()) //showing messages to yourself
 			std::cout << message.get_from() << " to " << message.get_to() << ": " << message.get_text() << std::endl;
-	}
+		if (current_user_->get_name() == message.get_from()) { //showing messages from you
+			if (message.get_to() != "All" && current_user_->get_name() != message.get_to())
+				std::cout << message.get_from() << " to " << message.get_to() << ": " << message.get_text() << std::endl;
+		}
+	} // you cannot see messages from someone to another, it's private
 }
 
 void Chat::show_all_user_name() const // showing all users in chat
