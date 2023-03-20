@@ -5,12 +5,13 @@
 void Chat::start()
 {
 	is_chat_work_ = true;
-	/*User<std::string> user1("1", "1", "1");
-	User<std::string> user2("2", "2", "2");
-	User<std::string> user3("3", "3", "3");
-	users_.push_back(user1);
-	users_.push_back(user2);
-	users_.push_back(user3);*/
+	// user imitation
+	//User<std::string> user1("1", "1", "1");
+	//User<std::string> user2("2", "2", "2");
+	//User<std::string> user3("3", "3", "3");
+	//users_.push_back(user1);
+	//users_.push_back(user2);
+	//users_.push_back(user3);
 }
 
 void Chat::show_login_menu()
@@ -48,29 +49,28 @@ void Chat::show_login_menu()
 void Chat::login()
 {
 	std::string login{ 0 }, password{ 0 };
+	char operation{ 0 };
 	do {
-		do {
-			std::cout << "Enter login: " << std::endl;
-			std::cin >> login;
-			std::cout << std::endl;
+		std::cout << "Enter login: " << std::endl;
+		std::cin >> login;
+		std::cout << std::endl;
 
-			current_user_ = get_user_login(login);
-			if (current_user_ == nullptr) {
-				std::cout << "Login error" << std::endl;
-				break;
-			}
+		std::cout << "Enter password: " << std::endl;
+		std::cin >> password;
+		std::cout << std::endl;
 
-			std::cout << "Enter password: " << std::endl;
-			std::cin >> password;
-			std::cout << std::endl;
+		current_user_ = get_user_login(login);
 
-			if (current_user_->get_password() != password) {
+		if (current_user_ == nullptr || current_user_->get_password() != password) {
+			if (current_user_)
 				current_user_ = nullptr;
-				std::cout << "Password error" << std::endl;
-				break;
-			}
-		} while (!current_user_);
-	}while (!current_user_);
+			std::cout << "Login or password error" << std::endl;
+			std::cout << "q for exit, any for retry" << std::endl;
+			std::cin >> operation;
+			if (operation == 'q')
+				return;
+		}
+	} while (!current_user_);
 }
 
 void Chat::sign_up()
@@ -207,6 +207,7 @@ void Chat::add_message()
 {
 	std::string from{ 0 }, to{ 0 }, text{ 0 };
 	bool flag{ true };
+	char operation;
 	from = current_user_->get_name();
 	do {
 		flag = false;
@@ -215,6 +216,10 @@ void Chat::add_message()
 		if (get_user_name(to) == nullptr && to != "All") {
 			flag = true;
 			std::cout << "this name not found" << std::endl;
+			std::cout << "q for exit, any for retry" << std::endl;
+			std::cin >> operation;
+			if (operation == 'q')
+				return;
 		}
 	} while(flag);
 	std::cout << "Enter your message" << std::endl;
